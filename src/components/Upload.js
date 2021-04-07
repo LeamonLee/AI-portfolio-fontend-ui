@@ -1,14 +1,37 @@
 import React, { useState } from 'react'
+import Button from "@material-ui/core/Button"
+
+import axios from 'axios'
 
 const Upload = () => {
     const [ image, setImage ] = useState(null)
+    const [ imageFile, setImageFile ] = useState(null)
 
     const onImageChange = event => {
         if (event.target.files && event.target.files[0]) {
             let img = event.target.files[0];
+            setImageFile(img);
             setImage(URL.createObjectURL(img));
         }
     };
+
+    const onPredictClick = () => {
+      let data = FormData();
+      data.append('images', imageFile)
+
+      const options = {
+        onUploadProgress: (progressEvent) => {
+          const { loaded, total } = progressEvent;
+          const percent = Math.floor((loaded * 100) / total)
+          console.log(` ${loaded} kb of ${total} kb | ${percent}%`)
+        }
+      }
+
+      axios.post("http://localhost:5001/image", data, options).then(res => {
+        console.log(res)
+      })
+    }
+
     return (
         <div>
             {/* <img src="http://localhost:5001/webcam" alt="logo" /> */}
@@ -25,6 +48,8 @@ const Upload = () => {
                 </div>
                 <button type="submit">Upload</button>
             </form> */}
+
+            { image && <Button color="inherit" onClick={onPredictClick}>Predict</Button> }
         </div>
     )
 }
