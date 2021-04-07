@@ -1,21 +1,48 @@
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
+import Upload from "./components/Upload";
+import ShowResult from "./components/ShowResult";
+import Home from "./components/Home";
 
 function App() {
   return (
+    <Router>
     <div>
-      {/* <img src="http://localhost:5001/webcam" alt="logo" /> */}
-      {/* <img src="http://localhost:5001/image" alt="logo" /> */}
-      {/* <img src="" alt="logo" /> */}
-      
-      <h4>Upload your image</h4>
-      <form action="http://localhost:5001/od/image_detect" method="POST" enctype="multipart/form-data">
-          <label for="">Select image</label>
-          <div>
-              <input type="file" name="image" id="image" />
-          </div>
-          <button type="submit">Upload</button>
-      </form>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/od/image/upload">Upload</Link>
+          </li>
+          <li>
+            <Link to="/od/image/show-result">ShowResult</Link>
+          </li>
+        </ul>
+      </nav>
+
+      {/* A <Switch> looks through its children <Route>s and
+          renders the first one that matches the current URL. */}
+      <Switch>
+        <Route path="/od/image/upload">
+          <Upload />
+        </Route>
+        <Route path="/od/image/show-result">
+          <ShowResult />
+        </Route>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
     </div>
+  </Router>
   );
 }
 
