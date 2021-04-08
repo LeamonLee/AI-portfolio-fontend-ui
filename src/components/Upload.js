@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import Button from "@material-ui/core/Button"
 
 import axios from 'axios'
@@ -6,6 +6,7 @@ import axios from 'axios'
 const Upload = () => {
     const [ image, setImage ] = useState(null)
     const [ imageFile, setImageFile ] = useState(null)
+    const detectedImageRef = useRef(null)
 
     const onImageChange = event => {
         if (event.target.files && event.target.files[0]) {
@@ -16,7 +17,7 @@ const Upload = () => {
     };
 
     const onPredictClick = () => {
-      let data = FormData();
+      let data = new FormData();
       data.append('images', imageFile)
 
       const options = {
@@ -27,8 +28,9 @@ const Upload = () => {
         }
       }
 
-      axios.post("http://localhost:5001/image", data, options).then(res => {
+      axios.post("http://localhost:5001/od/image_detect4", data, options).then(res => {
         console.log(res)
+        detectedImageRef.current.src = res.data
       })
     }
 
@@ -50,6 +52,7 @@ const Upload = () => {
             </form> */}
 
             { image && <Button color="inherit" onClick={onPredictClick}>Predict</Button> }
+            <img ref={detectedImageRef} src="" alt="" />
         </div>
     )
 }
