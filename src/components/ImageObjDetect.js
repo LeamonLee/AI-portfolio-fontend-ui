@@ -1,18 +1,17 @@
 import React, { useState, useRef } from 'react'
 import Button from "@material-ui/core/Button"
-
 import axios from 'axios'
 
-const Upload = () => {
-    const [ image, setImage ] = useState(null)
+const ImageObjDetect = () => {
+    const [ imagePreview, setImagePreview ] = useState(null)
     const [ imageFile, setImageFile ] = useState(null)
     const detectedImageRef = useRef(null)
 
-    const onImageChange = event => {
+    const onFileChange = event => {
         if (event.target.files && event.target.files[0]) {
             let img = event.target.files[0];
             setImageFile(img);
-            setImage(URL.createObjectURL(img));
+            setImagePreview(URL.createObjectURL(img));
         }
     };
 
@@ -38,10 +37,10 @@ const Upload = () => {
         <div>
             {/* <img src="http://localhost:5001/webcam" alt="logo" /> */}
             {/* <img src="http://localhost:5001/image" alt="logo" /> */}
-            {/* <img src="" alt="logo" /> */}
+            
             <h4>Upload your image</h4>
-            {image && <img src={image} />}
-            <input type="file" name="myImage" onChange={onImageChange} />
+            {imagePreview && <img src={imagePreview} alt="upload_image"/>}
+            <input type="file" name="myImage" onChange={onFileChange} />
 
             {/* <form action="http://localhost:5001/od/upload" method="POST" enctype="multipart/form-data">
                 <label for="">Select image</label>
@@ -51,10 +50,10 @@ const Upload = () => {
                 <button type="submit">Upload</button>
             </form> */}
 
-            { image && <Button color="inherit" onClick={onPredictClick}>Predict</Button> }
+            { imagePreview && <Button color="inherit" onClick={onPredictClick}>Predict</Button> }
             <img ref={detectedImageRef} src="" alt="" />
         </div>
     )
 }
 
-export default Upload
+export default ImageObjDetect

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -6,28 +6,18 @@ import {
   Link
 } from "react-router-dom";
 
-import { Grid, Button, AppBar, Toolbar, Typography, MenuItem, Menu, Avatar, makeStyles} from "@material-ui/core"
+import { Button, AppBar, Toolbar, Typography, Menu, MenuItem, CssBaseline, Container, makeStyles} from "@material-ui/core"
 
-import Upload from "./components/Upload";
-import ShowResult from "./components/ShowResult";
+import GenericImgObjDetect from "./components/GenericImgObjDetect";
+import GenericVideoObjDetect from "./components/GenericVideoObjDetect";
+import LicensePlateImgObjDetect from "./components/LicensePlateImgObjDetect";
+import LicensePlateVideoObjDetect from "./components/LicensePlateVideoObjDetect";
+import FoodClassification from "./components/FoodClassification";
 import Home from "./components/Home";
 
-const useStyles = makeStyles(theme =>({
+import { lstODMenuItemList } from "./config/config";
 
-  row:{
-    flexGrow:1
-  },
-  grow:{
-    flexGrow:1
-  },
-  container:{
-    width:1170,
-    margin:"auto"
-  },
-  buttonFontSize:{
-    fontSize:"11px",
-    color:"#a1a1a1"
-  },
+const useStyles = makeStyles(theme =>({
 
   AppBar:{
     //height:400,
@@ -35,103 +25,273 @@ const useStyles = makeStyles(theme =>({
     backgroundColor:"#fff",
     backgroundSize:"cover"
   },
-  mainLogo:{
-    color: "#a1a1a1",
-    justifyContent:"left",
-    '&:hover':{
-      background:"transparent"
-    }
+  containerWidthXl: {
+    maxWidth: "400px"
   },
-
-  avatar:{
-    height:"100%",
-    borderRadius:0,
-
-
+  containerWidthLg: {
+    maxWidth: "600px"
   },
-
-  loginButton:{
-    background:"#e91e63",
-    color:"#fff",
-    borderRadius:"25px",
-    padding:"0px 25px",
-
-    '&:hover':{
-      background: 'blue',
-      boxShadow: "0px 2px 10px #888888"
-    }
+  menuButton:{
+    fontSize:"12px",
+    fontWeight: 600
   }
-
 }));
+
 
 function App() {
 
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [ODURLConstraint, setODURLConstraint] = useState("");
+  const [ODAnchorEl, setODAnchorEl] = useState(null);
+  const [ODItemAnchorEl, setODItemAnchorEl] = useState(null);
+  const [ODItemActiveIdx, setODItemActiveIdx] = useState(-1);
+  // const [LstODItemAnchorEl, setLstODItemAnchorEl] = useState([]);
+
+  const handleODMenu = event => {
+    setODAnchorEl(event.currentTarget);
+  };
+
+  const handleODLPMenuClick = idx => event => {
+    // console.log("handleODLPMenuClick: ", idx)
+    // console.log("handleODLPMenuClick event: ", event)
+    if (ODItemAnchorEl !== event.currentTarget) {    
+      setODItemAnchorEl(event.currentTarget);
+      setODItemActiveIdx(idx);
+    } else {
+      handleODItemClose();
+    }
+  };
+
+  // const handleODLPMenuEnter = idx => event => {
+    // console.log("handleODLPMenuEnter: ", idx)
+    // console.log("handleODLPMenuEnter event: ", event)
+    // setTimeout(() => {
+      // setODItemAnchorEl(event.target);
+      // setODItemActiveIdx(idx);
+    // }, 200);  
+  // };
   
-  const handleMenu = event => {
-    setAnchorEl(event.currentTarget);
-    console.log(event.currentTarget)
+  // const handleODLPMenuLeave = idx => event => {
+    // console.log("handleODLPMenuLeave: ", idx)
+    // console.log("handleODLPMenuLeave event: ", event)
+  //   setTimeout(() => {
+  //     setODItemAnchorEl(null);
+  //     setODItemActiveIdx(-1);
+  //   }, 300); 
+  // };
+
+  // const handleLstODLPMenuClick = idx => event => {
+  //   // console.log("handleODLPMenuClick: ", idx)
+  //   // console.log("handleODLPMenuClick event: ", event)
+  //   setLstODItemAnchorEl(prevValue => {
+  //     let tmpArray = [...prevValue];
+  //     tmpArray[idx] = event.currentTarget;
+  //     console.log("handleODLPMenuClick tmpArray: ", tmpArray)
+  //     return tmpArray;
+  //   })
+  // };
+
+  // const handleLstODLPMenuEnter = idx => event => {
+  //   setLstODItemAnchorEl(prevValue => {
+  //     console.log("handlePopoverOpen event: ", event)
+  //     console.log("handlePopoverOpen prevValue: ", prevValue)
+  //     let tmpArray = [...prevValue];
+  //     tmpArray[idx] = event.target;
+  //     console.log("handlePopoverOpen tmpArray: ", tmpArray)
+  //     return tmpArray;
+  //   })
+  // };
+
+  // const handleLstODLPMenuLeave = idx => event => {
+  //   setLstODItemAnchorEl(prevValue => {
+  //     console.log("handlePopoverClose prevValue: ", prevValue)
+  //     let tmpArray = [...prevValue];
+  //     tmpArray[idx] = null;
+  //     console.log("handlePopoverClose tmpArray: ", tmpArray)
+  //     return tmpArray;
+  //   })
+  // };
+
+  const handleODClose = () => {
+    setODAnchorEl(null);
+    handleODItemClose();
+
+    // setLstODItemAnchorEl(prevValue => {
+    //   let tmpArray = []
+    //   for(let i = 0; i < prevValue.length; i++){
+    //     tmpArray.push(null);
+    //   }
+    //   return tmpArray;
+    // });
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleODItemClose = () => {
+    setODItemAnchorEl(null);
+    setODItemActiveIdx(-1);
   };
 
-  const open = Boolean(anchorEl);
+  // useEffect(() => {
+  //   let tmpArr = []
+  //   for(let i = 0; i < lstODMenuItemList.length ; i++){
+  //     tmpArr.push(null)
+  //   }
+  //   // console.log("tmpArr: ", tmpArr);
+  //   setLstODItemAnchorEl(tmpArr);
+  // }, [])
 
+  useEffect(()=>{
+    const result = lstODMenuItemList.reduce((prev, cur) => {
+      if (prev === "")
+        return cur.url
+
+      return prev + '|' + cur.url;
+    },"")
+    setODURLConstraint(result)
+  }, []);
+
+  // console.log("ODItemAnchorEl: ", LstODItemAnchorEl)
+  // console.log("Boolean(ODItemAnchorEl[0]: ", Boolean(LstODItemAnchorEl[0]))
+  // console.log("Boolean(ODItemAnchorEl[1]: ", Boolean(LstODItemAnchorEl[1]))
+  // console.log("Boolean(ODItemAnchorEl[2]: ", Boolean(LstODItemAnchorEl[2]))
+  
   return (
     <Router>
     <div>
+      <CssBaseline />  
       <AppBar position="static" color="default" className={classes.AppBar}>
-        <Grid item sm={12} xs={12} className={classes.container}>
-          <Toolbar>
-            <Grid className={classes.grow}>
-              <Button className={[classes.mainLogo]}>
-                <Avatar src="https://uploads.codesandbox.io/uploads/user/3e41a372-fc65-4387-bca0-70a050914db8/VIR9-logo.jpg" className={classes.avatar} />
-              </Button>
-            </Grid>
-            
-            <Button component={Link} to="/" color="inherit" className={classes.buttonFontSize}>Home</Button>
-            <Button component={Link} to="/od/image/upload" color="inherit" className={classes.buttonFontSize}>Upload</Button>
-            
-            <Button color="inherit" onClick={handleMenu} className={classes.buttonFontSize}>Discover</Button>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
-              <MenuItem onClick={handleClose}>My account</MenuItem>
-            </Menu>
-            <Button color="inherit" className={classes.buttonFontSize}>Profile</Button>
-            <Button color="inherit" className={[classes.buttonFontSize,classes.loginButton]}>Login</Button>
-          </Toolbar>
-        </Grid>
+        <Toolbar>
+          <Button component={Link} to="/classification/food" className={classes.menuButton}>Classification</Button>
+          <Button component={Link} to="/od/image/license_plate" color="inherit" className={classes.menuButton}>Image</Button>
+          <Button component={Link} to="/od/video/license_plate" color="inherit" className={classes.menuButton}>Video</Button>
+          
+          <Button color="inherit" onClick={handleODMenu} className={classes.menuButton}>Object Detection</Button>
+          <Menu
+            id="menu-object-detection"
+            anchorEl={ODAnchorEl}
+            getContentAnchorEl={null}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={Boolean(ODAnchorEl)}
+            onClose={handleODClose}
+            // MenuListProps={{
+            //   onMouseEnter: handleODLPMenuEnter,
+            //   onMouseLeave: handleODLPMenuLeave,
+            // }}
+          >
+            {
+              // LstODItemAnchorEl.length > 0 &&
+              lstODMenuItemList.map((item, idx) => {
+                return (
+
+                  <MenuItem 
+                    key={`${item.display}${idx}`} 
+                    onClick={handleODLPMenuClick(idx)}>
+                    {item.display}
+                  </MenuItem>
+
+                  // <MenuItem 
+                  //   key={`${item.display}${idx}`} 
+                  //   onClick={handleODLPMenuClick(idx)}
+                  //   onMouseEnter={handleODLPMenuEnter(idx)}
+                  //   onMouseLeave={handleODLPMenuLeave(idx)}>
+                  //   {item.display}
+                  // </MenuItem>
+
+                  // <MenuItem 
+                  //   key={`${item}${idx}`} 
+                  //   onClick={handleLstODLPMenuClick(idx)}>
+                  //   {item}
+                  // </MenuItem>
+
+                  // <MenuItem 
+                  //   key={`${item}${idx}`} 
+                  //   onMouseEnter={handleLstODLPMenuEnter(idx)}
+                  //   onMouseLeave={handleLstODLPMenuLeave(idx)}>
+                  //   {item}
+                  // </MenuItem>
+                )
+              })
+            }
+          </Menu>
+          {
+            lstODMenuItemList.map((item, idx) => {
+              return (
+                <Menu
+                  key={`${item.display}${idx}`}
+                  id={`${item.display}-menu`}
+                  open={idx === ODItemActiveIdx} 
+                  anchorEl={ODItemAnchorEl}
+                  onClose={handleODClose}
+                  getContentAnchorEl={null}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                >
+                  <MenuItem onClick={handleODClose} component={Link} to={`/od/image/${item.url}`}>Image</MenuItem>
+                  <MenuItem onClick={handleODClose} component={Link} to={`/od/video/${item.url}`}>Video</MenuItem>
+                </Menu>
+              )
+            })
+          }
+          {/* {
+            LstODItemAnchorEl.length > 0 &&
+            lstODMenuItemList.map((item, idx) => {
+              return (
+                <Menu
+                  key={`${item}${idx}`}
+                  id={`${item}-menu`}
+                  open={Boolean(LstODItemAnchorEl[idx])} 
+                  anchorEl={LstODItemAnchorEl[idx]}
+                  onClose={handleClose}
+                  getContentAnchorEl={null}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                >
+                  <MenuItem onClick={handleClose} component={Link} to="">Image</MenuItem>
+                  <MenuItem onClick={handleClose} component={Link} to="">Video</MenuItem>
+                </Menu>
+              )
+            })
+          } */}
+          
+        </Toolbar>
       </AppBar>
 
-      {/* A <Switch> looks through its children <Route>s and
-          renders the first one that matches the current URL. */}
-      <Switch>
-        <Route path="/od/image/upload">
-          <Upload />
-        </Route>
-        <Route path="/od/image/show-result">
-          <ShowResult />
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
+      <Container classes={{maxWidthXl:classes.containerWidthXl, maxWidthLg:classes.containerWidthLg}}>
+        <Switch>
+          <Route path="/classification/food">
+            <FoodClassification />
+          </Route>
+          <Route path={`/od/image/:ODSubjectURL(${ODURLConstraint})`}>
+            {/* <LicensePlateImgObjDetect /> */}
+            <GenericImgObjDetect />
+          </Route>
+          <Route path={`/od/video/:ODSubjectURL(${ODURLConstraint})`}>
+            {/* <LicensePlateVideoObjDetect /> */}
+            <GenericVideoObjDetect />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </Container>
     </div>
   </Router>
   );
