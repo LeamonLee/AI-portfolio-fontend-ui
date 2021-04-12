@@ -1,7 +1,7 @@
 export const lstODMenuItemList = [
   {
     "display": "License Plate",
-    "url": "license_plate"
+    "url": "lpr"
   },
   {
     "display": "Facemask",
@@ -9,6 +9,6 @@ export const lstODMenuItemList = [
   },
   {
     "display": "Corona Virus",
-    "url": "corona_virus"
+    "url": "coronavirus"
   }
 ];

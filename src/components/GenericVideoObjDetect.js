@@ -58,7 +58,7 @@ const LicensePlateVideoObjDetect = () => {
             setFilename={setFilename} />  
           <ODPredict 
             file={file}
-            predictAPIUrl={`http://localhost:5001/od/video_detect/${filename}`}
+            predictAPIUrl={`http://localhost:5001/od/video_detect/${ODSubjectURL}/${filename}`}
             isFileUploaded={filePreview ? true:false}
             uploadPercent={uploadPercent} 
             setUploadPercent={setUploadPercent} />

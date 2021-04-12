@@ -59,7 +59,7 @@ const LicensePlateImgObjDetect = () => {
             setUploadPercent={setUploadPercent} />  
           <ODPredict 
             file={file}
-            predictAPIUrl="http://localhost:5001/od/image_detect4"
+            predictAPIUrl={`http://localhost:5001/od/image_detect/${ODSubjectURL}`}
             isFileUploaded={filePreview ? true:false}
             uploadPercent={uploadPercent}
             setUploadPercent={setUploadPercent} />
