@@ -37,6 +37,8 @@ const ImagePredict = (props) => {
 
     axios.post(predictAPIUrl, data, options).then(res => {
       console.log(res);
+      setPredictedClass(res.data.predicted_class);
+      setScore(res.data.score);
       setIsReceivedRes(true);
     })
   }
@@ -61,12 +63,12 @@ const ImagePredict = (props) => {
         isReceivedRes === true && uploadPercent >= 100 &&
         <>
           <Grid item xs={6}>
-            <Typography  variant="body1">
+            <Typography  variant="h6">
               Predicted_class: {predictedClass}
             </Typography>
           </Grid>
           <Grid item xs={6}>
-            <Typography  variant="body1">
+            <Typography  variant="h6">
               Score: {score}
             </Typography>
           </Grid>
