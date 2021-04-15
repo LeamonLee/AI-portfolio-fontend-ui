@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LicensePlateVideoObjDetect = () => {
+const GenericVideoObjDetect = () => {
 
     const { ODSubjectURL } = useParams();  // Ex: License Plate, facemask, 
     const classes = useStyles();
@@ -42,7 +42,7 @@ const LicensePlateVideoObjDetect = () => {
         return obj.url === ODSubjectURL;
       })
       setODSubject(result[0]);
-    }, []);
+    }, [ODSubjectURL]);
 
     return (
       <>
@@ -58,7 +58,7 @@ const LicensePlateVideoObjDetect = () => {
             setFilename={setFilename} />  
           <ODPredict 
             file={file}
-            predictAPIUrl={`http://localhost:5001/od/video_detect/${ODSubjectURL}/${filename}`}
+            predictAPIUrl={`http://localhost:5001/od/video_detect/${filename}/${ODSubjectURL}`}
             isFileUploaded={filePreview ? true:false}
             uploadPercent={uploadPercent} 
             setUploadPercent={setUploadPercent} />
@@ -67,4 +67,4 @@ const LicensePlateVideoObjDetect = () => {
     )
 }
 
-export default LicensePlateVideoObjDetect
+export default GenericVideoObjDetect

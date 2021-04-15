@@ -161,8 +161,8 @@ function App() {
       <AppBar position="static" color="default" className={classes.AppBar}>
         <Toolbar>
           <Button component={Link} to="/classification/food" className={classes.menuButton}>Classification</Button>
-          <Button component={Link} to="/od/image/license_plate" color="inherit" className={classes.menuButton}>Image</Button>
-          <Button component={Link} to="/od/video/license_plate" color="inherit" className={classes.menuButton}>Video</Button>
+          {/* <Button component={Link} to="/od/image/license_plate" color="inherit" className={classes.menuButton}>Image</Button>
+          <Button component={Link} to="/od/video/license_plate" color="inherit" className={classes.menuButton}>Video</Button> */}
           
           <Button color="inherit" onClick={handleODMenu} className={classes.menuButton}>Object Detection</Button>
           <Menu
@@ -270,7 +270,7 @@ function App() {
               )
             })
           } */}
-          
+          <Button component={Link} to="/od/image/lpr/ocr" color="inherit" className={classes.menuButton}>OCR</Button>
         </Toolbar>
       </AppBar>
 
@@ -279,13 +279,17 @@ function App() {
           <Route path="/classification/food">
             <FoodClassification />
           </Route>
-          <Route path={`/od/image/:ODSubjectURL(${ODURLConstraint})`}>
+          <Route path={`/od/image/:ODSubjectURL(${ODURLConstraint})`} exact>
             {/* <LicensePlateImgObjDetect /> */}
             <GenericImgObjDetect />
           </Route>
-          <Route path={`/od/video/:ODSubjectURL(${ODURLConstraint})`}>
+          <Route path={`/od/video/:ODSubjectURL(${ODURLConstraint})`} exact>
             {/* <LicensePlateVideoObjDetect /> */}
             <GenericVideoObjDetect />
+          </Route>
+          <Route path={`/od/image/:ODSubjectURL(lpr)/ocr`}>
+            {/* <LicensePlateImgObjDetect /> */}
+            <GenericImgObjDetect isOCR={true}/>
           </Route>
           <Route path="/">
             <Home />

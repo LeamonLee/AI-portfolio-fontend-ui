@@ -17,9 +17,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const LicensePlateImgObjDetect = () => {
+const GenericImgObjDetect = (props) => {
 
-    const { ODSubjectURL } = useParams();  // Ex: License Plate, facemask, 
+    const { isOCR } = props;
+    const { ODSubjectURL } = useParams();  // Ex: lpr, facemask, 
     const classes = useStyles();
 
     const [ filePreview, setFilePreview ] = useState(null)
@@ -41,9 +42,16 @@ const LicensePlateImgObjDetect = () => {
       const result = lstODMenuItemList.filter(obj => {
         return obj.url === ODSubjectURL;
       })
-      setODSubject(result[0]);
-    }, []);
+      if(ODSubject !== result[0]){
+        setODSubject(result[0]);
+        setFilePreview(null);
+        setFile(null);
+        setFilename(null);
+        setUploadPercent(0);
+      }
+    }, [ODSubjectURL]);
 
+    console.log("ODSubjectURL:", ODSubjectURL)
     return (
       <>
         <Backdrop className={classes.backdrop} open={uploadPercent > 0 && uploadPercent < 100}>
@@ -59,7 +67,7 @@ const LicensePlateImgObjDetect = () => {
             setUploadPercent={setUploadPercent} />  
           <ODPredict 
             file={file}
-            predictAPIUrl={`http://localhost:5001/od/image_detect/${ODSubjectURL}`}
+            predictAPIUrl={isOCR ? `http://localhost:5001/od/${ODSubjectURL}/image_detect/ocr` : `http://localhost:5001/od/${ODSubjectURL}/image_detect`}
             isFileUploaded={filePreview ? true:false}
             uploadPercent={uploadPercent}
             setUploadPercent={setUploadPercent} />
@@ -68,4 +76,4 @@ const LicensePlateImgObjDetect = () => {
     )
 }
 
-export default LicensePlateImgObjDetect
+export default GenericImgObjDetect
