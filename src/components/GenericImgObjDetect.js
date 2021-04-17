@@ -52,7 +52,7 @@ const GenericImgObjDetect = (props) => {
       }
 
       if(ODSubjectURL === "coronavirus") {
-        setPredictAPIUrl(`https://odbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+        setPredictAPIUrl(`https://odclassificationbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect`)
       } else if (isOCR === true) {
         setPredictAPIUrl(`https://odbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect/ocr`)
       } else {
