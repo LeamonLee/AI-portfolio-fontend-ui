@@ -23,12 +23,13 @@ const GenericImgObjDetect = (props) => {
     const { ODSubjectURL } = useParams();  // Ex: lpr, facemask, 
     const classes = useStyles();
 
-    const [ filePreview, setFilePreview ] = useState(null)
-    const [ file, setFile ] = useState(null)
-    const [ filename, setFilename ] = useState("")
-    const [ uploadPercent, setUploadPercent ] = useState(0)
+    const [ filePreview, setFilePreview ] = useState(null);
+    const [ file, setFile ] = useState(null);
+    const [ filename, setFilename ] = useState("");
+    const [ uploadPercent, setUploadPercent ] = useState(0);
     // const [ isBackdropOpen, setIsBackdropOpen ] = useState(false)
-    const [ ODSubject, setODSubject ] = useState("")
+    const [ ODSubject, setODSubject ] = useState("");
+    const [ predictAPIUrl, setPredictAPIUrl ] = useState("");
 
     // useEffect(() => {
     //   if(uploadPercent >= 100){
@@ -49,6 +50,15 @@ const GenericImgObjDetect = (props) => {
         setFilename(null);
         setUploadPercent(0);
       }
+
+      if(ODSubjectURL === "coronavirus") {
+        setPredictAPIUrl(`https://odbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+      } else if (isOCR === true) {
+        setPredictAPIUrl(`https://odbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect/ocr`)
+      } else {
+        setPredictAPIUrl(`https://odbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+      }
+
     }, [ODSubjectURL]);
 
     console.log("ODSubjectURL:", ODSubjectURL)
@@ -67,7 +77,7 @@ const GenericImgObjDetect = (props) => {
             setUploadPercent={setUploadPercent} />  
           <ODPredict 
             file={file}
-            predictAPIUrl={isOCR ? `http://localhost:5001/od/${ODSubjectURL}/image_detect/ocr` : `http://localhost:5001/od/${ODSubjectURL}/image_detect`}
+            predictAPIUrl={predictAPIUrl}
             isFileUploaded={filePreview ? true:false}
             uploadPercent={uploadPercent}
             setUploadPercent={setUploadPercent} />

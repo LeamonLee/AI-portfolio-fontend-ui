@@ -28,6 +28,7 @@ const GenericVideoObjDetect = () => {
     const [ uploadPercent, setUploadPercent ] = useState(0)
     // const [ isBackdropOpen, setIsBackdropOpen ] = useState(false)
     const [ ODSubject, setODSubject ] = useState("")
+    const [ predictAPIUrl, setPredictAPIUrl ] = useState("");
 
     // useEffect(() => {
     //   if(uploadPercent >= 100){
@@ -41,7 +42,20 @@ const GenericVideoObjDetect = () => {
       const result = lstODMenuItemList.filter(obj => {
         return obj.url === ODSubjectURL;
       })
-      setODSubject(result[0]);
+      if(ODSubject !== result[0]){
+        setODSubject(result[0]);
+        setFilePreview(null);
+        setFile(null);
+        setFilename(null);
+        setUploadPercent(0);
+      }
+
+      if(ODSubjectURL === "coronavirus") {
+        setPredictAPIUrl(`https://odbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+      } else {
+        setPredictAPIUrl(`https://odbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+      }
+
     }, [ODSubjectURL]);
 
     return (
@@ -58,7 +72,7 @@ const GenericVideoObjDetect = () => {
             setFilename={setFilename} />  
           <ODPredict 
             file={file}
-            predictAPIUrl={`http://localhost:5001/od/video_detect/${filename}/${ODSubjectURL}`}
+            predictAPIUrl={predictAPIUrl}
             isFileUploaded={filePreview ? true:false}
             uploadPercent={uploadPercent} 
             setUploadPercent={setUploadPercent} />

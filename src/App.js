@@ -6,12 +6,10 @@ import {
   Link
 } from "react-router-dom";
 
-import { Button, AppBar, Toolbar, Typography, Menu, MenuItem, CssBaseline, Container, makeStyles} from "@material-ui/core"
+import { Button, AppBar, Toolbar, Menu, MenuItem, CssBaseline, Container, makeStyles} from "@material-ui/core"
 
 import GenericImgObjDetect from "./components/GenericImgObjDetect";
 import GenericVideoObjDetect from "./components/GenericVideoObjDetect";
-import LicensePlateImgObjDetect from "./components/LicensePlateImgObjDetect";
-import LicensePlateVideoObjDetect from "./components/LicensePlateVideoObjDetect";
 import FoodClassification from "./components/FoodClassification";
 import Home from "./components/Home";
 
@@ -45,15 +43,12 @@ function App() {
   const [ODAnchorEl, setODAnchorEl] = useState(null);
   const [ODItemAnchorEl, setODItemAnchorEl] = useState(null);
   const [ODItemActiveIdx, setODItemActiveIdx] = useState(-1);
-  // const [LstODItemAnchorEl, setLstODItemAnchorEl] = useState([]);
 
   const handleODMenu = event => {
     setODAnchorEl(event.currentTarget);
   };
 
   const handleODLPMenuClick = idx => event => {
-    // console.log("handleODLPMenuClick: ", idx)
-    // console.log("handleODLPMenuClick event: ", event)
     if (ODItemAnchorEl !== event.currentTarget) {    
       setODItemAnchorEl(event.currentTarget);
       setODItemActiveIdx(idx);
@@ -62,67 +57,9 @@ function App() {
     }
   };
 
-  // const handleODLPMenuEnter = idx => event => {
-    // console.log("handleODLPMenuEnter: ", idx)
-    // console.log("handleODLPMenuEnter event: ", event)
-    // setTimeout(() => {
-      // setODItemAnchorEl(event.target);
-      // setODItemActiveIdx(idx);
-    // }, 200);  
-  // };
-  
-  // const handleODLPMenuLeave = idx => event => {
-    // console.log("handleODLPMenuLeave: ", idx)
-    // console.log("handleODLPMenuLeave event: ", event)
-  //   setTimeout(() => {
-  //     setODItemAnchorEl(null);
-  //     setODItemActiveIdx(-1);
-  //   }, 300); 
-  // };
-
-  // const handleLstODLPMenuClick = idx => event => {
-  //   // console.log("handleODLPMenuClick: ", idx)
-  //   // console.log("handleODLPMenuClick event: ", event)
-  //   setLstODItemAnchorEl(prevValue => {
-  //     let tmpArray = [...prevValue];
-  //     tmpArray[idx] = event.currentTarget;
-  //     console.log("handleODLPMenuClick tmpArray: ", tmpArray)
-  //     return tmpArray;
-  //   })
-  // };
-
-  // const handleLstODLPMenuEnter = idx => event => {
-  //   setLstODItemAnchorEl(prevValue => {
-  //     console.log("handlePopoverOpen event: ", event)
-  //     console.log("handlePopoverOpen prevValue: ", prevValue)
-  //     let tmpArray = [...prevValue];
-  //     tmpArray[idx] = event.target;
-  //     console.log("handlePopoverOpen tmpArray: ", tmpArray)
-  //     return tmpArray;
-  //   })
-  // };
-
-  // const handleLstODLPMenuLeave = idx => event => {
-  //   setLstODItemAnchorEl(prevValue => {
-  //     console.log("handlePopoverClose prevValue: ", prevValue)
-  //     let tmpArray = [...prevValue];
-  //     tmpArray[idx] = null;
-  //     console.log("handlePopoverClose tmpArray: ", tmpArray)
-  //     return tmpArray;
-  //   })
-  // };
-
   const handleODClose = () => {
     setODAnchorEl(null);
     handleODItemClose();
-
-    // setLstODItemAnchorEl(prevValue => {
-    //   let tmpArray = []
-    //   for(let i = 0; i < prevValue.length; i++){
-    //     tmpArray.push(null);
-    //   }
-    //   return tmpArray;
-    // });
   };
 
   const handleODItemClose = () => {
@@ -130,14 +67,7 @@ function App() {
     setODItemActiveIdx(-1);
   };
 
-  // useEffect(() => {
-  //   let tmpArr = []
-  //   for(let i = 0; i < lstODMenuItemList.length ; i++){
-  //     tmpArr.push(null)
-  //   }
-  //   // console.log("tmpArr: ", tmpArr);
-  //   setLstODItemAnchorEl(tmpArr);
-  // }, [])
+  
 
   useEffect(()=>{
     const result = lstODMenuItemList.reduce((prev, cur) => {
@@ -148,11 +78,6 @@ function App() {
     },"")
     setODURLConstraint(result)
   }, []);
-
-  // console.log("ODItemAnchorEl: ", LstODItemAnchorEl)
-  // console.log("Boolean(ODItemAnchorEl[0]: ", Boolean(LstODItemAnchorEl[0]))
-  // console.log("Boolean(ODItemAnchorEl[1]: ", Boolean(LstODItemAnchorEl[1]))
-  // console.log("Boolean(ODItemAnchorEl[2]: ", Boolean(LstODItemAnchorEl[2]))
   
   return (
     <Router>
@@ -161,9 +86,6 @@ function App() {
       <AppBar position="static" color="default" className={classes.AppBar}>
         <Toolbar>
           <Button component={Link} to="/classification/food" className={classes.menuButton}>Classification</Button>
-          {/* <Button component={Link} to="/od/image/license_plate" color="inherit" className={classes.menuButton}>Image</Button>
-          <Button component={Link} to="/od/video/license_plate" color="inherit" className={classes.menuButton}>Video</Button> */}
-          
           <Button color="inherit" onClick={handleODMenu} className={classes.menuButton}>Object Detection</Button>
           <Menu
             id="menu-object-detection"
@@ -179,10 +101,7 @@ function App() {
             }}
             open={Boolean(ODAnchorEl)}
             onClose={handleODClose}
-            // MenuListProps={{
-            //   onMouseEnter: handleODLPMenuEnter,
-            //   onMouseLeave: handleODLPMenuLeave,
-            // }}
+            
           >
             {
               // LstODItemAnchorEl.length > 0 &&
@@ -194,27 +113,6 @@ function App() {
                     onClick={handleODLPMenuClick(idx)}>
                     {item.display}
                   </MenuItem>
-
-                  // <MenuItem 
-                  //   key={`${item.display}${idx}`} 
-                  //   onClick={handleODLPMenuClick(idx)}
-                  //   onMouseEnter={handleODLPMenuEnter(idx)}
-                  //   onMouseLeave={handleODLPMenuLeave(idx)}>
-                  //   {item.display}
-                  // </MenuItem>
-
-                  // <MenuItem 
-                  //   key={`${item}${idx}`} 
-                  //   onClick={handleLstODLPMenuClick(idx)}>
-                  //   {item}
-                  // </MenuItem>
-
-                  // <MenuItem 
-                  //   key={`${item}${idx}`} 
-                  //   onMouseEnter={handleLstODLPMenuEnter(idx)}
-                  //   onMouseLeave={handleLstODLPMenuLeave(idx)}>
-                  //   {item}
-                  // </MenuItem>
                 )
               })
             }
@@ -244,32 +142,7 @@ function App() {
               )
             })
           }
-          {/* {
-            LstODItemAnchorEl.length > 0 &&
-            lstODMenuItemList.map((item, idx) => {
-              return (
-                <Menu
-                  key={`${item}${idx}`}
-                  id={`${item}-menu`}
-                  open={Boolean(LstODItemAnchorEl[idx])} 
-                  anchorEl={LstODItemAnchorEl[idx]}
-                  onClose={handleClose}
-                  getContentAnchorEl={null}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                  }}
-                >
-                  <MenuItem onClick={handleClose} component={Link} to="">Image</MenuItem>
-                  <MenuItem onClick={handleClose} component={Link} to="">Video</MenuItem>
-                </Menu>
-              )
-            })
-          } */}
+          
           <Button component={Link} to="/od/image/lpr/ocr" color="inherit" className={classes.menuButton}>OCR</Button>
         </Toolbar>
       </AppBar>
@@ -280,15 +153,12 @@ function App() {
             <FoodClassification />
           </Route>
           <Route path={`/od/image/:ODSubjectURL(${ODURLConstraint})`} exact>
-            {/* <LicensePlateImgObjDetect /> */}
             <GenericImgObjDetect />
           </Route>
           <Route path={`/od/video/:ODSubjectURL(${ODURLConstraint})`} exact>
-            {/* <LicensePlateVideoObjDetect /> */}
             <GenericVideoObjDetect />
           </Route>
           <Route path={`/od/image/:ODSubjectURL(lpr)/ocr`}>
-            {/* <LicensePlateImgObjDetect /> */}
             <GenericImgObjDetect isOCR={true}/>
           </Route>
           <Route path="/">
