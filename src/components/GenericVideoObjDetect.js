@@ -51,9 +51,9 @@ const GenericVideoObjDetect = () => {
       }
 
       if(ODSubjectURL === "coronavirus") {
-        setPredictAPIUrl(`https://odclassificationbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+        setPredictAPIUrl(`https://odclassificationbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect`)
       } else {
-        setPredictAPIUrl(`https://odbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+        setPredictAPIUrl(`https://odbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect`)
       }
 
     }, [ODSubjectURL]);

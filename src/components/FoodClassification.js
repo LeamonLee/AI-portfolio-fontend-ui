@@ -23,7 +23,7 @@ const FoodClassification = () => {
           setUploadPercent={setUploadPercent} />  
         <ImagePredict 
           file={file}
-          predictAPIUrl={`https://odclassificationbackendapp-viuqpagm3q-de.a.run.app/classification/image_predict/${filename}`}
+          predictAPIUrl={`https://odclassificationbackendapp-kkns75d4wq-de.a.run.app/classification/image_predict/${filename}`}
           isFileUploaded={filePreview ? true:false}
           uploadPercent={uploadPercent}
           setUploadPercent={setUploadPercent} />
