@@ -52,14 +52,16 @@ const GenericImgObjDetect = (props) => {
       }
 
       if(ODSubjectURL === "coronavirus") {
-        setPredictAPIUrl(`https://odclassificationbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect`)
-      } else if (isOCR === true) {
-        setPredictAPIUrl(`https://odbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect/ocr`)
+        setPredictAPIUrl(`https://odclassificationbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+      } else if (ODSubjectURL === "lpr" && isOCR === true) {
+        setPredictAPIUrl(`https://odlprbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect/ocr`)
+      } else if (ODSubjectURL === "lpr") {
+        setPredictAPIUrl(`https://odlprbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect`)
       } else {
-        setPredictAPIUrl(`https://odbackendapp-viuqpagm3q-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+        setPredictAPIUrl(`https://odfacemaskbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect`)
       }
 
-    }, [ODSubjectURL]);
+    }, [ODSubjectURL, isOCR, ODSubject]);
 
     console.log("ODSubjectURL:", ODSubjectURL)
     return (
