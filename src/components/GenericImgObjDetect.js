@@ -51,14 +51,22 @@ const GenericImgObjDetect = (props) => {
         setUploadPercent(0);
       }
 
+      // if(ODSubjectURL === "coronavirus") {
+      //   setPredictAPIUrl(`https://odclassificationbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+      // } else if (ODSubjectURL === "lpr" && isOCR === true) {
+      //   setPredictAPIUrl(`https://odlprbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect/ocr`)
+      // } else if (ODSubjectURL === "lpr") {
+      //   setPredictAPIUrl(`https://odlprbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+      // } else {
+      //   setPredictAPIUrl(`https://odfacemaskbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+      // }
+
       if(ODSubjectURL === "coronavirus") {
         setPredictAPIUrl(`https://odclassificationbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect`)
-      } else if (ODSubjectURL === "lpr" && isOCR === true) {
-        setPredictAPIUrl(`https://odlprbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect/ocr`)
-      } else if (ODSubjectURL === "lpr") {
-        setPredictAPIUrl(`https://odlprbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+      } else if (isOCR === true) {
+        setPredictAPIUrl(`https://odbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect/ocr`)
       } else {
-        setPredictAPIUrl(`https://odfacemaskbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect`)
+        setPredictAPIUrl(`https://odbackendapp-kkns75d4wq-de.a.run.app/od/${ODSubjectURL}/image_detect`)
       }
 
     }, [ODSubjectURL, isOCR, ODSubject]);
