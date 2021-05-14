@@ -22,7 +22,8 @@ const UploadFile = (props) => {
     setFilePreview,
     setFile,
     setFilename,
-    setUploadPercent
+    setUploadPercent,
+    isVideo
   } = props
 
   const onFileChange = event => {
@@ -46,7 +47,7 @@ const UploadFile = (props) => {
       </Grid>
       <Grid item xs={12}>
         <input
-          accept="image/*"
+          accept={isVideo ? "video/*" : "image/*"}
           className={classes.input}
           id="contained-btn-file"
           onChange={onFileChange}

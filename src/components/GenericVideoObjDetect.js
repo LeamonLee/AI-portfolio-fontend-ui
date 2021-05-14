@@ -65,6 +65,7 @@ const GenericVideoObjDetect = () => {
         </Backdrop>
         <Grid container spacing={2}>
           <UploadFile 
+            isVideo={true}
             title={`Please Upload a ${ODSubject.display?.toLowerCase()} video`}
             filePreview={filePreview}
             setFilePreview={setFilePreview}
